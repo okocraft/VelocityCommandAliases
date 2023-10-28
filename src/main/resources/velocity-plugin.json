@@ -1,0 +1,7 @@
+{
+  "id": "velocitycommandaliases",
+  "name": "VelocityCommandAliases",
+  "version": "${project.version}",
+  "authors": [ "lazy_gon" ],
+  "main": "net.okocraft.velocitycommandaliases.Main"
+}

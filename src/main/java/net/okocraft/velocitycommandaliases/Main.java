@@ -144,7 +144,7 @@ public class Main {
                         alias
                 ));
                 setAliasesLoaded(true);
-            }).delay(10L, TimeUnit.SECONDS);
+            }).delay(10L, TimeUnit.SECONDS).schedule();
         }
     }
 

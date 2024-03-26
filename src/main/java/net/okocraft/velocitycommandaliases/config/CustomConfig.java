@@ -8,8 +8,8 @@ import java.io.OutputStream;
 import java.nio.file.Path;
 
 import net.okocraft.velocitycommandaliases.Main;
-import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 /**
  * Class for manipulating yaml files.
@@ -18,7 +18,7 @@ import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
  */
 public abstract class CustomConfig {
 
-    private final YAMLConfigurationLoader loader;
+    private final YamlConfigurationLoader loader;
     private final Main plugin;
     private final File file;
     private final String name;
@@ -29,7 +29,7 @@ public abstract class CustomConfig {
 
         Path filePath = plugin.dataDirectory().resolve(name);
 
-        this.loader = YAMLConfigurationLoader.builder().setPath(filePath).build();
+        this.loader = YamlConfigurationLoader.builder().path(filePath).build();
         this.name = name;
         this.file = filePath.toFile();
         reload();
@@ -46,7 +46,7 @@ public abstract class CustomConfig {
         this.plugin = plugin;
         this.file = file;
         this.name = file.getName();
-        this.loader = YAMLConfigurationLoader.builder().setPath(file.toPath()).build();
+        this.loader = YamlConfigurationLoader.builder().path(file.toPath()).build();
         reload();
     }
 

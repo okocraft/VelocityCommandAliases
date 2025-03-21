@@ -14,6 +14,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import java.lang.reflect.Field;
 import java.nio.file.Path;
 import net.okocraft.velocitycommandaliases.command.CommandAlias;
 import net.okocraft.velocitycommandaliases.command.ReloadAliases;
@@ -41,13 +42,14 @@ public class Main {
     private final ProxyServer proxy;
     private final Path dataDirectory;
     private final Logger logger;
-    
-    
+    private final CommandDispatcher<CommandSource> dispatcher;
+
     @Inject
     public Main(ProxyServer proxy, @DataDirectory Path dataDirectory, Logger logger) {
         this.proxy = proxy;
         this.dataDirectory = dataDirectory;
         this.logger = logger;
+        this.dispatcher = this.getDispatcherFromCommandManager();
 
         commandConfig = new CommandConfig(this);
         reloadCommand = new ReloadAliases(this);
@@ -207,11 +209,17 @@ public class Main {
         return commandConfig;
     }
 
-
     public CommandDispatcher<CommandSource> getDispatcher() {
+        return this.dispatcher;
+    }
+
+    @SuppressWarnings("unchecked")
+    public CommandDispatcher<CommandSource> getDispatcherFromCommandManager() {
         try {
             CommandManager commandManager = proxy.getCommandManager();
-            return (CommandDispatcher<CommandSource>) commandManager.getClass().getField("dispatcher").get(commandManager);
+            Field field = commandManager.getClass().getField("dispatcher");
+            field.setAccessible(true);
+            return (CommandDispatcher<CommandSource>) field.get(commandManager);
         } catch (ReflectiveOperationException e) {
             throw new IllegalStateException(e);
         }

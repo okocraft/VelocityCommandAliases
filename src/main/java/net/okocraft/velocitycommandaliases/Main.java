@@ -217,7 +217,7 @@ public class Main {
     public CommandDispatcher<CommandSource> getDispatcherFromCommandManager() {
         try {
             CommandManager commandManager = proxy.getCommandManager();
-            Field field = commandManager.getClass().getField("dispatcher");
+            Field field = commandManager.getClass().getDeclaredField("dispatcher");
             field.setAccessible(true);
             return (CommandDispatcher<CommandSource>) field.get(commandManager);
         } catch (ReflectiveOperationException e) {

@@ -8,7 +8,6 @@ import com.velocitypowered.api.command.BrigadierCommand;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.command.CommandSource;
-import com.velocitypowered.api.event.PostOrder;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyShutdownEvent;
@@ -75,7 +74,7 @@ public class Main {
         this.aliasesLoaded = aliasesLoaded;
     }
 
-    @Subscribe(order = PostOrder.LAST)
+    @Subscribe
     public void onEnable(ProxyInitializeEvent event) {
         Map<String, CommandMeta> registeredCommands = new HashMap<>();
 
@@ -197,7 +196,7 @@ public class Main {
                 ));
     }
 
-    @Subscribe(order = PostOrder.FIRST)
+    @Subscribe
     public void onDisable(ProxyShutdownEvent event) {
         commandAliases.keySet().forEach(this::disableAlias);
         commandAliases.clear();
